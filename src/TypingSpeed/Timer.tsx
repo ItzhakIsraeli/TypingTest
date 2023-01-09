@@ -22,20 +22,20 @@ export const Timer = ({testStatus, correctWords, handleTestComplete}: TimerProps
                 setTimePast(prevState => prevState + 1);
             }, 1000);
         } else if (testStatus === TEST_SITUATIONS.RESTART) {
-            setTimePast(0)
+            setTimePast(0);
         }
         return () => clearInterval(interval);
     }, [testStatus, timePast]);
 
     return (
         <>
-            <Typography color={'primary'} variant={'h6'}>
+            <Typography color={'primary'} variant={'h5'}>
                 Time: {60 - timePast}
             </Typography>
-            <Typography color={'primary'} variant={'h6'}>
+            <Typography color={'primary'} variant={'h5'}>
                 Speed: {((correctWordsLength / (timePast / 60)) || 0).toFixed(2)} WPM
             </Typography>
-            <Typography color={'error'} variant={'h6'}>
+            <Typography color={'error'} variant={'h5'}>
                 Errors: {correctWords.length - correctWordsLength}
             </Typography>
         </>

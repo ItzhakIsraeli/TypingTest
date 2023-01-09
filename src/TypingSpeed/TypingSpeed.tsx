@@ -1,4 +1,4 @@
-import {getData} from "../Data/Data";
+import {data} from "../Data/Data";
 import Word from "./Word";
 import {Box, Button, Divider, Grid, TextField, Typography} from "@mui/material";
 import React from "react";
@@ -12,15 +12,16 @@ export enum TEST_SITUATIONS {
 }
 
 export const TypingSpeed = () => {
-    const [testStatus,setTestStatus] = React.useState<TEST_SITUATIONS>(TEST_SITUATIONS.WAITING_FOR_TEST);
+    const [testStatus, setTestStatus] = React.useState<TEST_SITUATIONS>(TEST_SITUATIONS.WAITING_FOR_TEST);
     const [input, setInput] = React.useState<string>('');
-    const wordBank = React.useRef<string[]>(getData());
+    const wordBank = React.useRef<string[]>(data);
 
     const [wordIndex, setWordIndex] = React.useState<number>(0);
     const [correctWords, setCorrectWords] = React.useState<boolean[]>([]);
 
     const handleRestart = () => {
         setTestStatus(TEST_SITUATIONS.RESTART);
+        wordBank.current = wordBank.current.sort(() => Math.random() > 0.5 ? 1 : -1);
         setInput('');
         setWordIndex(0);
         setCorrectWords([]);
@@ -32,19 +33,19 @@ export const TypingSpeed = () => {
         if (changeInput.endsWith(' ')) {
 
             if (wordIndex === wordBank.current.length - 1) {
-                handleTestComplete()
+                handleTestComplete();
             } else {
-                setInput('')
+                setInput('');
             }
 
             setWordIndex(prevState => prevState + 1);
             setCorrectWords(prevState => {
                 const newResult = [...prevState];
-                newResult[wordIndex] = changeInput.trim() === wordBank.current[wordIndex]
-                return newResult
+                newResult[wordIndex] = changeInput.trim() === wordBank.current[wordIndex];
+                return newResult;
             })
         } else {
-            setInput(changeInput)
+            setInput(changeInput);
         }
     }
 
